@@ -1,5 +1,7 @@
 import tweepy
-
+import sys
+from tweepy import Stream
+from tweepy.streaming import StreamListener
 import dotenv
 from dotenv import load_dotenv
 import os
@@ -14,6 +16,16 @@ access_token_secret = os.getenv('Access_Token_Secret')
 
 Auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 Auth.set_access_token(access_token, access_token_secret)
+
+class Listener(StreamListener):
+    def __init__(self, output_file=sys.stdout):
+        super(Listener,self).__init__()
+        self.output_file = output_file
+    def on_status(self, status):
+        print(status.text, file=self.output_file)
+    def on_error(self, status_code):
+        print(status_code)
+     
 
 def auth():
     return os.getenv("Bearer_Token")
@@ -68,5 +80,4 @@ print(conversations['data'][0])
 source_tweet = api.get_status(tweet_id)
 name = source_tweet.user.screen_name
 print(name)
-
 
