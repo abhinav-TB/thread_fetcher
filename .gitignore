@@ -1,2 +1,4 @@
 .env
 /env
+key.json
+__pycache__
