@@ -3,7 +3,7 @@ from tweepy.streaming import StreamListener
 from dotenv import load_dotenv
 import os
 load_dotenv()
-from coversations import conversations
+from conversations import conversations
 
 
 conv = conversations()
