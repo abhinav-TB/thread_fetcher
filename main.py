@@ -2,7 +2,6 @@ import tweepy
 from tweepy import Stream
 from dotenv import load_dotenv
 import os
-from urllib.parse import quote
 from stream import listener
 load_dotenv()
 
@@ -16,7 +15,3 @@ Auth.set_access_token(access_token, access_token_secret)
 
 twitterStream = Stream(Auth, listener())
 twitterStream.filter(track=["@NeoAnderson1999"])
-
-
-
-

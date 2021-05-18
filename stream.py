@@ -1,10 +1,8 @@
-import tweepy
 from tweepy.streaming import StreamListener
-from dotenv import load_dotenv
-import os
-load_dotenv()
 from conversations import conversations
+from dotenv import load_dotenv
 
+load_dotenv()
 
 conv = conversations()
 class listener(StreamListener):

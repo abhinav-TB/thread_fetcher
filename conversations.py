@@ -1,9 +1,32 @@
-from mdutils.mdutils import MdUtils
+# from mdutils.mdutils import MdUtils
 import os
 import requests
 from urllib.parse import quote
 from dotenv import load_dotenv
+from fpdf import FPDF
+
 load_dotenv()
+
+
+class PDF(FPDF):
+    def header(self):
+        # Arial bold 15
+        self.set_font('Arial', 'B', 15)
+        # Move to the right
+        self.cell(80)
+        # Title
+        self.cell(30, 10, 'Saved Twitter Thread', 0, 1, 'C')
+        # Line break
+        self.ln(20)
+
+    # Page footer
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Arial', 'I', 8)
+        # Page number
+        self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
 
 
 class conversations:
@@ -25,12 +48,17 @@ class conversations:
             tweet_texts = [tweet_tuple[0]
                            for tweet_tuple in tweets] + [first_tweet_text]
             tweet_texts.reverse()
-            md_file = MdUtils(file_name="twitter_thread",
-                              title="Saved Twitter Thread")
+            # md_file = MdUtils(file_name="twitter_thread", title="Saved Twitter Thread")
+            pdf = PDF()
+            pdf.alias_nb_pages()
+            pdf.add_page()
+            pdf.set_font('Times', '', 12)
             for tweet_text in tweet_texts:
-                md_file.new_paragraph(tweet_text)
-            md_file.create_md_file()
-            print("Markdown file saved")
+                # md_file.new_paragraph(tweet_text)
+                pdf.cell(0, 10, tweet_text, 0, 1, 'C')
+            # md_file.create_md_file()
+            pdf.output("twitter_thread.pdf", "F")
+            print("Thread saved locally")
 
     def auth(self):
         return os.getenv("Bearer_Token")
