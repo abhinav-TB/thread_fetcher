@@ -8,7 +8,8 @@ conv = conversations()
 class listener(StreamListener):
 
     def on_status(self, status):
-        conv(status.in_reply_to_status_id_str)
+        conv(status.in_reply_to_status_id_str , status.user.screen_name)
+        print(status.user.screen_name)
 
     def on_error(self, status):
         print("error",status)

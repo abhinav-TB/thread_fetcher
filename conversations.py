@@ -3,6 +3,7 @@ import requests
 from urllib.parse import quote
 from dotenv import load_dotenv
 from fpdf import FPDF
+from firebase import Firebase_util
 
 load_dotenv()
 
@@ -31,17 +32,26 @@ class PDF(FPDF):
 class conversations:
 
     def __init__(self):
+        self.app = Firebase_util()
         self.tweet_id = None
-        self.conversatio_id = None
+        self.conversation_id = None
         self.author_id = None
         self.json_response = None
+        
 
-    def __call__(self, tweet_id):
+    def __call__(self, tweet_id ,user_name):
         self.tweet_id = tweet_id
+        self.user_name = user_name
         self.get_conversation_id()
         self.get_conversation_from_id()
-        tweets = [(tweet["text"], tweet["id"])
-                  for tweet in self.json_response['data']]
+        self.save_as_pdf()
+        self.app.add_to_bucket(self.conversation_id,user_name)
+        if os.path.exists(f"{self.conversation_id}.pdf"):
+            os.remove(f"{self.conversation_id}.pdf")
+       
+    def save_as_pdf(self):
+
+        tweets = [(tweet["text"], tweet["id"]) for tweet in self.json_response['data']]
         first_tweet_text = self.get_reply_tweet_text(tweets[-1][1])
         if first_tweet_text:
             tweet_texts = [tweet_tuple[0]
@@ -52,8 +62,9 @@ class conversations:
             pdf.add_page()
             pdf.set_font('Times', '', 12)
             for tweet_text in tweet_texts:
+                tweet_text = tweet_text.encode('latin-1', 'replace').decode('latin-1')
                 pdf.cell(0, 10, tweet_text, 0, 1, 'C')
-            pdf.output("twitter_thread.pdf", "F")
+            pdf.output(f"{self.conversation_id}.pdf", "F")
             print("Thread saved locally")
 
     def auth(self):
