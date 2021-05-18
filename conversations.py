@@ -1,4 +1,3 @@
-# from mdutils.mdutils import MdUtils
 import os
 import requests
 from urllib.parse import quote
@@ -48,15 +47,12 @@ class conversations:
             tweet_texts = [tweet_tuple[0]
                            for tweet_tuple in tweets] + [first_tweet_text]
             tweet_texts.reverse()
-            # md_file = MdUtils(file_name="twitter_thread", title="Saved Twitter Thread")
             pdf = PDF()
             pdf.alias_nb_pages()
             pdf.add_page()
             pdf.set_font('Times', '', 12)
             for tweet_text in tweet_texts:
-                # md_file.new_paragraph(tweet_text)
                 pdf.cell(0, 10, tweet_text, 0, 1, 'C')
-            # md_file.create_md_file()
             pdf.output("twitter_thread.pdf", "F")
             print("Thread saved locally")
 
