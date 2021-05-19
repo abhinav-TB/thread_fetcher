@@ -12,10 +12,8 @@ class PDF(FPDF):
     def header(self):
         # Arial bold 15
         self.set_font('Arial', 'B', 15)
-        # Move to the right
-        self.cell(80)
         # Title
-        self.cell(30, 10, 'Saved Twitter Thread', 0, 1, 'C')
+        self.multi_cell(0, 20, 'Saved Twitter Thread', 0, 'C')
         # Line break
         self.ln(20)
 
@@ -51,7 +49,6 @@ class conversations:
         return self.conversation_id
        
     def save_as_pdf(self):
-
         tweets = [(tweet["text"], tweet["id"]) for tweet in self.json_response['data']]
         first_tweet_text = self.get_reply_tweet_text(tweets[-1][1])
         if first_tweet_text:
@@ -64,7 +61,7 @@ class conversations:
             pdf.set_font('Times', '', 12)
             for tweet_text in tweet_texts:
                 tweet_text = tweet_text.encode('latin-1', 'replace').decode('latin-1')
-                pdf.cell(0, 10, tweet_text, 0, 1, 'C')
+                pdf.multi_cell(0, 10, tweet_text, 1, 'C')
             pdf.output(f"{self.conversation_id}.pdf", "F")
             print("Thread saved locally")
 
