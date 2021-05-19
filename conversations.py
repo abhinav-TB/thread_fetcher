@@ -48,6 +48,7 @@ class conversations:
         self.app.add_to_bucket(self.conversation_id,user_name)
         if os.path.exists(f"{self.conversation_id}.pdf"):
             os.remove(f"{self.conversation_id}.pdf")
+        return self.conversation_id
        
     def save_as_pdf(self):
 

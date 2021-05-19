@@ -13,5 +13,7 @@ access_token_secret = os.getenv('Access_Token_Secret')
 Auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 Auth.set_access_token(access_token, access_token_secret)
 
-twitterStream = Stream(Auth, listener())
-twitterStream.filter(track=["@NeoAnderson1999"])
+api = tweepy.API(Auth)
+
+twitterStream = Stream(Auth, listener(api))
+twitterStream.filter(track=["@thread_fetcher"])
