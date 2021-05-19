@@ -35,22 +35,32 @@ class conversations:
         self.conversation_id = None
         self.author_id = None
         self.json_response = None
-        
 
-    def __call__(self, tweet_id ,user_name):
+    def __call__(self, tweet_id, user_name):
         self.tweet_id = tweet_id
         self.user_name = user_name
         self.get_conversation_id()
         self.get_conversation_from_id()
         self.save_as_pdf()
-        self.app.add_to_bucket(self.conversation_id,user_name)
+        self.app.add_to_bucket(self.conversation_id, user_name)
         if os.path.exists(f"{self.conversation_id}.pdf"):
             os.remove(f"{self.conversation_id}.pdf")
         return self.conversation_id
-       
+
     def save_as_pdf(self):
-        tweets = [(tweet["text"], tweet["id"]) for tweet in self.json_response['data']]
-        first_tweet_text = self.get_reply_tweet_text(tweets[-1][1])
+        tweets = [(tweet["text"], tweet["id"])
+                  for tweet in self.json_response['data']]
+
+        # Remove tweets which are not replying to the original author
+        indices_to_remove = list()
+        for i in range(len(tweets)):
+            _, replied_to = self.get_reply_tweet(tweets[i][1])
+            if replied_to != self.author_id:
+                indices_to_remove.append(i)
+        for index in indices_to_remove:
+            del tweets[index]
+
+        first_tweet_text, _ = self.get_reply_tweet(tweets[-1][1])
         if first_tweet_text:
             tweet_texts = [tweet_tuple[0]
                            for tweet_tuple in tweets] + [first_tweet_text]
@@ -60,7 +70,8 @@ class conversations:
             pdf.add_page()
             pdf.set_font('Times', '', 12)
             for tweet_text in tweet_texts:
-                tweet_text = tweet_text.encode('latin-1', 'replace').decode('latin-1')
+                tweet_text = tweet_text.encode(
+                    'latin-1', 'replace').decode('latin-1')
                 pdf.multi_cell(0, 10, tweet_text, 1, 'C')
             pdf.output(f"{self.conversation_id}.pdf", "F")
             print("Thread saved locally")
@@ -83,8 +94,8 @@ class conversations:
             )
         return response.json()
 
-    def get_reply_tweet_text(self, parent_tweet_id):
-        tweet_fields = "tweet.fields=in_reply_to_user_id"
+    def get_reply_tweet(self, parent_tweet_id):
+        tweet_fields = "tweet.fields=in_reply_to_user_id,author_id"
         expansions = "expansions=referenced_tweets.id"
         url = f"https://api.twitter.com/2/tweets?ids={parent_tweet_id}&{tweet_fields}&{expansions}"
         bearer_token = self.auth()
@@ -92,10 +103,12 @@ class conversations:
         json_response = self.connect_to_endpoint(url, headers)
         if "in_reply_to_user_id" not in json_response["data"][0]:
             print("Not called on a thread")
-            return None
+            return None, None
         else:
             # print(json_response)
-            return json_response['includes']['tweets'][0]['text']
+            tweet_text = json_response['includes']['tweets'][0]['text']
+            replied_to = json_response['includes']['tweets'][0]['author_id']
+            return tweet_text, replied_to
 
     def get_conversation_from_id(self):
         tweet_fields = "tweet.fields=author_id"
