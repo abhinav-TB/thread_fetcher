@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import tweepy
 from tweepy import Stream
 from dotenv import load_dotenv
