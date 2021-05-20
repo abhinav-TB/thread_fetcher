@@ -4,7 +4,7 @@ from firebase_admin import credentials
 
 class Firebase_util:
     def __init__(self):
-        cred = credentials.Certificate("./key.json")
+        cred = credentials.Certificate("./config/key.json")
         firebase_admin.initialize_app(cred, {
         'storageBucket': 'thread-fetcher.appspot.com'
      })
