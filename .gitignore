@@ -3,3 +3,4 @@
 .venv
 key.json
 __pycache__
+*.pdf
