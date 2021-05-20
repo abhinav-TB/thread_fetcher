@@ -1,8 +1,13 @@
+from __future__ import unicode_literals
 import tweepy
 from tweepy import Stream
 from dotenv import load_dotenv
 import os
 from stream import listener
+
+from pathlib import Path
+
+dotenv_path = Path('./config')
 load_dotenv()
 
 consumer_key = os.getenv("API_Key")

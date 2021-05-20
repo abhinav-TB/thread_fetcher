@@ -21,7 +21,7 @@ class PDF:
         self.line_break = '<br/><br/><br/><br/><br/>'
         self.doc_file = SimpleDocTemplate(f'{file_name}.pdf')
         self.styles = getSampleStyleSheet()
-        font_file = 'Symbola.ttf'
+        font_file = './binaries/Symbola.ttf'
         symbola_font = TTFont('Symbola', font_file)
         pdfmetrics.registerFont(symbola_font)
         self.styles["BodyText"].fontName = 'Symbola'
