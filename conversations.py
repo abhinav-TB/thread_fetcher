@@ -28,7 +28,7 @@ class PDF:
         self.styles["BodyText"].fontSize = 16
         self.styles["BodyText"].leading = 16
         self.styles["Heading1"].fontSize = 30
-        self.styles["Heading1"].leading = 18
+        self.styles["Heading1"].leading = 30
         title = Paragraph(title_text + self.line_break,
                           self.styles['Heading1'])
         self.flowables.append(title)
@@ -54,8 +54,9 @@ class conversations:
         self.tweet_id = None
         self.conversation_id = None
         self.author_id = None
-        self.author_name = None
+        self.author_name = ''
         self.json_response = None
+        self.created_at = ''
 
     def __call__(self, tweet_id, user_name):
         self.tweet_id = tweet_id
@@ -87,7 +88,8 @@ class conversations:
             tweet_texts = [tweet_tuple[0]
                            for tweet_tuple in tweets] + [first_tweet_text]
             tweet_texts.reverse()
-            pdf = PDF('Saved Twitter Thread', self.conversation_id)
+            pdf = PDF(
+                f'Thread by @{self.author_name} on {self.created_at}', self.conversation_id)
             for tweet_text in tweet_texts:
                 pdf.add_tweet_text(tweet_text)
             pdf.save()
@@ -139,12 +141,15 @@ class conversations:
         self.json_response = self.connect_to_endpoint(url, headers)
 
     def get_conversation_id(self):
-        tweet_fields = "tweet.fields=conversation_id,author_id"
+        tweet_fields = "tweet.fields=conversation_id,author_id,created_at"
         user_fields = "user.fields=username"
         url = f"https://api.twitter.com/2/tweets?ids={self.tweet_id}&expansions=author_id&{tweet_fields}&{user_fields}"
         bearer_token = self.auth()
         headers = self.create_headers(bearer_token)
         json_response = self.connect_to_endpoint(url, headers)
+        # print(json_response)
         self.conversation_id = json_response["data"][0]["conversation_id"]
         self.author_id = json_response["data"][0]["author_id"]
-        print(json_response)
+        self.author_name = json_response["includes"]["users"][0]["username"]
+        # TODO find out date of creation of thread from the original tweet instead
+        self.created_at = json_response["data"][0]["created_at"][:10]
