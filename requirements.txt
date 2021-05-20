@@ -36,4 +36,5 @@ six==1.16.0
 tweepy==3.10.0
 uritemplate==3.0.1
 urllib3==1.26.4
-fpdf==1.7.2
+reportlab==3.5.67
+pillow==4.0.0
