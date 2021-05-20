@@ -2,29 +2,49 @@ import os
 import requests
 from urllib.parse import quote
 from dotenv import load_dotenv
-from fpdf import FPDF
 from firebase import Firebase_util
+
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus.flowables import PageBreakIfNotEmpty
 
 load_dotenv()
 
 
-class PDF(FPDF):
-    def header(self):
-        # Arial bold 15
-        self.set_font('Arial', 'B', 15)
-        # Title
-        self.multi_cell(0, 20, 'Saved Twitter Thread', 0, 'C')
-        # Line break
-        self.ln(20)
+class PDF:
+    def __init__(self, title_text, file_name) -> None:
+        self.flowables = []
+        self.items_in_last_page = 0
+        self.line_break = '<br/><br/><br/><br/><br/>'
+        self.doc_file = SimpleDocTemplate(f'{file_name}.pdf')
+        self.styles = getSampleStyleSheet()
+        font_file = 'Symbola.ttf'
+        symbola_font = TTFont('Symbola', font_file)
+        pdfmetrics.registerFont(symbola_font)
+        self.styles["BodyText"].fontName = 'Symbola'
+        self.styles["BodyText"].fontSize = 16
+        self.styles["BodyText"].leading = 16
+        self.styles["Heading1"].fontSize = 30
+        self.styles["Heading1"].leading = 18
+        title = Paragraph(title_text + self.line_break,
+                          self.styles['Heading1'])
+        self.flowables.append(title)
+        self.items_in_last_page += 1
 
-    # Page footer
-    def footer(self):
-        # Position at 1.5 cm from bottom
-        self.set_y(-15)
-        # Arial italic 8
-        self.set_font('Arial', 'I', 8)
-        # Page number
-        self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
+    def add_tweet_text(self, tweet_text):
+        tweet = Paragraph(tweet_text + self.line_break,
+                          self.styles["BodyText"])
+        if (self.items_in_last_page >= 5):
+            self.flowables.append(PageBreakIfNotEmpty())
+            self.items_in_last_page -= 5
+        self.flowables.append(tweet)
+        self.items_in_last_page += 1
+
+    def save(self):
+        self.doc_file.build(self.flowables)
 
 
 class conversations:
@@ -34,6 +54,7 @@ class conversations:
         self.tweet_id = None
         self.conversation_id = None
         self.author_id = None
+        self.author_name = None
         self.json_response = None
 
     def __call__(self, tweet_id, user_name):
@@ -45,6 +66,7 @@ class conversations:
         self.app.add_to_bucket(self.conversation_id, user_name)
         if os.path.exists(f"{self.conversation_id}.pdf"):
             os.remove(f"{self.conversation_id}.pdf")
+            print("Local copy of PDF deleted")
         return self.conversation_id
 
     def save_as_pdf(self):
@@ -65,16 +87,11 @@ class conversations:
             tweet_texts = [tweet_tuple[0]
                            for tweet_tuple in tweets] + [first_tweet_text]
             tweet_texts.reverse()
-            pdf = PDF()
-            pdf.alias_nb_pages()
-            pdf.add_page()
-            pdf.set_font('Times', '', 12)
+            pdf = PDF('Saved Twitter Thread', self.conversation_id)
             for tweet_text in tweet_texts:
-                tweet_text = tweet_text.encode(
-                    'latin-1', 'replace').decode('latin-1')
-                pdf.multi_cell(0, 10, tweet_text, 1, 'C')
-            pdf.output(f"{self.conversation_id}.pdf", "F")
-            print("Thread saved locally")
+                pdf.add_tweet_text(tweet_text)
+            pdf.save()
+            print("Thread saved locally as a PDF")
 
     def auth(self):
         return os.getenv("Bearer_Token")
@@ -123,9 +140,11 @@ class conversations:
 
     def get_conversation_id(self):
         tweet_fields = "tweet.fields=conversation_id,author_id"
-        url = f"https://api.twitter.com/2/tweets?ids={self.tweet_id}&{tweet_fields}"
+        user_fields = "user.fields=username"
+        url = f"https://api.twitter.com/2/tweets?ids={self.tweet_id}&expansions=author_id&{tweet_fields}&{user_fields}"
         bearer_token = self.auth()
         headers = self.create_headers(bearer_token)
         json_response = self.connect_to_endpoint(url, headers)
         self.conversation_id = json_response["data"][0]["conversation_id"]
         self.author_id = json_response["data"][0]["author_id"]
+        print(json_response)

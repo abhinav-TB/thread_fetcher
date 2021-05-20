@@ -16,4 +16,4 @@ Auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(Auth)
 
 twitterStream = Stream(Auth, listener(api))
-twitterStream.filter(track=["@thread_fetcher"])
+twitterStream.filter(track=["@threadfetcher"])
