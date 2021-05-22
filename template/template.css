@@ -11,11 +11,14 @@ body {
 
 .tweet_text {
     border-radius: 5px;
-    padding: 5%;
+    padding: 2.5% 2.5%;
+    font-size: large;
 }
 
-.tweet_image, .tweet_gif, .tweet_video {
+.tweet_image,
+.tweet_gif,
+.tweet_video {
     border-radius: 5px;
     width: 80%;
-    margin: 5%;
+    margin: 2.5%;
 }

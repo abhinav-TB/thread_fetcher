@@ -38,15 +38,15 @@ class HTML:
         if tweet_media_type == "photo":
             for image_url in tweet_media_urls:
                 self.body += f"""
-                <img class="tweet_image" href="{image_url}">
+                <img class="tweet_image" src="{image_url}">
                 """
         elif tweet_media_type == "animated_gif":
             self.body += f"""
-            <video class="tweet_gif" controls autoplay href="{tweet_media_urls[0]}">
+            <video class="tweet_gif" controls autoplay src="{tweet_media_urls[0]}">
             """
         elif tweet_media_type == "video":
             self.body += f"""
-            <video class="tweet_video" controls href="{tweet_media_urls[0]}"/>
+            <video class="tweet_video" controls src="{tweet_media_urls[0]}"/>
             """
         self.body += "</div>"
 
