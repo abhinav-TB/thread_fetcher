@@ -6,8 +6,8 @@ import requests
 from urllib.parse import quote
 from dotenv import load_dotenv
 from firebase import Firebase_util
-
-from jinja2 import Environment, FileSystemLoader
+from html_generation import HTML
+from utils import is_thread,handle_is_thread
 
 load_dotenv()
 
@@ -21,42 +21,6 @@ Auth.set_access_token(access_token, access_token_secret)
 
 api_v1 = API(Auth)
 
-env = Environment(loader=FileSystemLoader('template'))
-
-
-class HTML:
-    def __init__(self, title_text, file_name) -> None:
-        self.template = env.get_template('template.html')
-        self.file_content = None
-        self.title_text = title_text
-        self.file_name = file_name
-        self.body = ""
-
-    def add_tweet_card(self, tweet_text, tweet_media_type=None, tweet_media_urls=None) -> None:
-        self.body += """<div class="tweet_card">"""
-        self.body += f"""<div class="tweet_text">{tweet_text}</div>"""
-        if tweet_media_type == "photo":
-            for image_url in tweet_media_urls:
-                self.body += f"""
-                <img class="tweet_image" src="{image_url}">
-                """
-        elif tweet_media_type == "animated_gif":
-            self.body += f"""
-            <video class="tweet_gif" controls autoplay src="{tweet_media_urls[0]}">
-            """
-        elif tweet_media_type == "video":
-            self.body += f"""
-            <video class="tweet_video" controls src="{tweet_media_urls[0]}"/>
-            """
-        self.body += "</div>"
-
-    def save(self) -> None:
-        file_content = self.template.render(
-            title=self.title_text, body=self.body)
-        with open(self.file_name + ".html", "w") as f:
-            f.write(file_content)
-
-
 class conversations:
     def __init__(self):
         self.app = Firebase_util()
@@ -67,12 +31,16 @@ class conversations:
         self.json_response = None
         self.created_at = ''
 
-    def __call__(self, tweet_id, user_name):
+    def __call__(self,usr_tweet_id ,tweet_id, user_name):
         self.tweet_id = tweet_id
         self.user_name = user_name
         self.get_conversation_id()
-        self.get_conversation_from_id()
-        self.save_as_html()
+        self.get_conversation_from_id() 
+        if is_thread(self.json_response):
+            self.save_as_html()
+        else:
+            handle_is_thread(usr_tweet_id) 
+            return None
         self.app.add_to_bucket(self.conversation_id, user_name)
         if os.path.exists(f"{self.conversation_id}.html"):
             os.remove(f"{self.conversation_id}.html")
@@ -175,7 +143,6 @@ class conversations:
         bearer_token = self.auth()
         headers = self.create_headers(bearer_token)
         self.json_response = self.connect_to_endpoint(url, headers)
-        # print(self.json_response)
 
     def get_conversation_id(self):
         tweet_fields = "tweet.fields=conversation_id,author_id,created_at"
