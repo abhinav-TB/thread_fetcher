@@ -24,6 +24,7 @@ tweepy - latest
 2. change directory to thread_fetcher
 3. RUN ```pip install -r requirements.txt```
 4. create a file called .env then copy all contents of .env_sample to env file ,fill the values of env variables from the ones you recieved after registring the app using the twitter dev account 
+5. create a file called key.json to put all the firebase configs(to access a free gcloud storage bucket to store all threads)
 ## How to Run
 1. change directory to thread_fetcher folder inside the root folder
 2. RUN ```python main.py```
