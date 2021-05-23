@@ -15,7 +15,14 @@ BFH/recr4RwI8ceNDt7j5/2021
 4. You can open the webpage to see all the text , vedio ,images ,gifs in the thread with an additional option to download the pdf of the same 
 ## Libraries used
 tweepy - latest
+## Prerequisites
+1. python3.6+ (tested on python3.7)
+2. Twitter developer account
 ## How to configure
-Instructions for setting up project
+1. clone the repository ```git clone git@github.com:abhinav-TB/thread_fetcher.git```
+2. change directory to thread_fetcher
+3. RUN ```pip install -r requirements.txt```
+4. create a file called .env then copy all contents of .env_sample to env file ,fill the values of env variables from the ones you recieved after registring the app using the twitter dev account 
 ## How to Run
-Instructions for running
+1. change directory to thread_fetcher folder inside the root folder
+2. RUN ```python main.py```
