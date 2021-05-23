@@ -113,15 +113,14 @@ class conversations:
             return tweet_id, replied_to
 
     def get_tweets_dict(self, id_list):
-        tweets = api_v1.statuses_lookup(id_list, include_entities=True)
+        tweets = api_v1.statuses_lookup(id_list, include_entities=True, tweet_mode='extended')
         tweets_dict = dict()
         for tweet in tweets:
-            tweet_dict = {'text': tweet.text,
+            tweet_dict = {'text': tweet.full_text,
                           'media_type': None, 'media_urls': None}
             if 'extended_entities' in dir(tweet):
                 tweet_dict['media_type'] = tweet.extended_entities['media'][0]['type']
                 if tweet_dict['media_type'] == 'animated_gif' or tweet_dict['media_type'] == 'video':
-                    # Not necessarily saving the best quality video
                     tweet_dict['media_urls'] = [
                         tweet.extended_entities['media'][0]['video_info']['variants'][0]['url']]
                 elif tweet_dict['media_type'] == 'photo':
@@ -155,5 +154,4 @@ class conversations:
         self.conversation_id = json_response["data"][0]["conversation_id"]
         self.author_id = json_response["data"][0]["author_id"]
         self.author_name = json_response["includes"]["users"][0]["username"]
-        # TODO find out date of creation of thread from the original tweet instead
         self.created_at = json_response["data"][0]["created_at"][:10]
