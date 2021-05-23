@@ -38,3 +38,5 @@ uritemplate==3.0.1
 urllib3==1.26.4
 reportlab==3.5.67
 pillow==4.0.0
+jinja2==3.0.1
+MarkupSafe==2.0.1

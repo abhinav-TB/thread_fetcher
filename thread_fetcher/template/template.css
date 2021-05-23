@@ -1,0 +1,24 @@
+body {
+    text-align: center;
+    /* margin: 5% 10%; */
+}
+
+.tweet_card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.432);
+    border-radius: 5px;
+    margin: 5%;
+}
+
+.tweet_text {
+    border-radius: 5px;
+    padding: 2.5% 2.5%;
+    font-size: large;
+}
+
+.tweet_image,
+.tweet_gif,
+.tweet_video {
+    border-radius: 5px;
+    width: 80%;
+    margin: 2.5%;
+}

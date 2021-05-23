@@ -11,7 +11,7 @@ class Firebase_util:
         self.bucket = storage.bucket()
     def add_to_bucket(self,thread_name,user_name):
         file =self.bucket.blob(f'{user_name}/{thread_name}')
-        file.upload_from_filename(f'./{thread_name}.pdf')
+        file.upload_from_filename(f'./{thread_name}.html')
 
 
 

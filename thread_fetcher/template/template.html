@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<script>
+    function print_pdf() {
+        window.print()
+    }
+</script>
+
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-16" />
+    <style>
+        body {
+            text-align: center;
+            /* margin: 5% 10%; */
+        }
+
+        .tweet_card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.432);
+            border-radius: 5px;
+            margin: 5%;
+        }
+
+        .tweet_text {
+            border-radius: 5px;
+            padding: 2.5% 2.5%;
+            font-size: large;
+        }
+
+        .tweet_image,
+        .tweet_gif,
+        .tweet_video {
+            border-radius: 5px;
+            width: 80%;
+            margin: 2.5%;
+        }
+
+        button {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.432);
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media print {
+            @page {
+                margin: 10px;
+            }
+
+            body {
+                margin: 1.6cm;
+            }
+
+            button, video {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">{{ title }}</h1>
+    <button onclick="print_pdf()">Save As PDF</button>
+    {{ body }}
+</body>
+
+</html>
