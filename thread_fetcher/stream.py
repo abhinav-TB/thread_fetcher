@@ -20,7 +20,6 @@ class listener(StreamListener):
         if(not conv_id):return
         print("Tagged by: " + status.user.screen_name)
         url = addr+status.user.screen_name+'/'+conv_id
-        print(url)
         mssg = f"Hi {status.user.name} here is the thread you have requested 😉 \n"
         self.api.send_direct_message(status.user.id_str, mssg +url)
 
