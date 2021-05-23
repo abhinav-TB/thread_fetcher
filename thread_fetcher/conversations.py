@@ -68,9 +68,6 @@ class conversations:
             tweets_dict = self.get_tweets_dict(tweet_ids)
             html_file = HTML(
                 f'Thread by @{self.author_name} on {self.created_at}', self.conversation_id)
-            # print(tweet_ids)
-            # print('\n\n\n')
-            # print(tweets_dict.keys())
             for tweet_id in tweet_ids:
                 tweet = tweets_dict[tweet_id]
                 html_file.add_tweet_card(
