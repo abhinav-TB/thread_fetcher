@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html>
+<script>
+    function print_pdf() {
+        window.print()
+    }
+</script>
 
 <head>
     <title>{{ title }}</title>
@@ -29,11 +34,35 @@
             width: 80%;
             margin: 2.5%;
         }
+
+        button {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.432);
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media print {
+            @page {
+                margin: 10px;
+            }
+
+            body {
+                margin: 1.6cm;
+            }
+
+            button, video {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
     <h1 class="title">{{ title }}</h1>
+    <button onclick="print_pdf()">Print As PDF</button>
     {{ body }}
 </body>
 

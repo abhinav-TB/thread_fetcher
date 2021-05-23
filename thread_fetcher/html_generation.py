@@ -9,6 +9,7 @@ class HTML:
         self.title_text = title_text
         self.file_name = file_name
         self.body = ""
+        self.url = ""
         
 
     def add_tweet_card(self, tweet_text, tweet_media_type=None, tweet_media_urls=None) -> None:
