@@ -4,10 +4,11 @@ Thread_fetcher is an amazing twitter-bot which when tagged on a usefull thread w
 ## Team members
 1. Abhinav TB https://github.com/abhinav-TB
 2. FazilBabu https://github.com/fazil47
+3. Akhil BR https://github.com/Akhil-BR
 ## Team Id
-BFH/recr4RwI8ceNDt7j5/2021
+ BFH/recr4RwI8ceNDt7j5/2021
 ## Link to product walkthrough
-[link to video]
+ [link to video]
 ## How it Works ?
 1. Follow the bot @threadfetcher in twitter (The bot will not have the permission to send you a dm if this step is not done)
 2. Find a thread you need to save and tag the bot in reply to any of the tweet in the thread( The bot will give you an eroor message as reply if the tweet does not have any thread)
