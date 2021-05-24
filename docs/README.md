@@ -21,9 +21,9 @@ tweepy - v3.10.0
 2. Twitter developer account
 3. A google-cloud/firebase account
 ## How to configure
-1. Clone the repository ```git clone git@github.com:abhinav-TB/thread_fetcher.git```
-2. Change directory to thread_fetcher
-3. RUN ```pip install -r requirements.txt```
+1. Clone the repository ```git clone https://github.com/abhinav-TB/thread_fetcher.git```
+2. RUN ```pip install -r requirements.txt```
+3. Change directory to thread_fetcher
 4. Create a file called `.env` then copy all contents of `.env_sample` to env file, fill the values of env variables from the ones you recieved after registering the app using the twitter dev account 
 5. create a file called `key.json` to put all the firebase configs and place it inside a folder called `config` inside the `thread_fetcher` subfolder (to access a free gcloud storage bucket to store all threads)
 6. Add the handle of your bot to `thread_fetcher/main.py`
