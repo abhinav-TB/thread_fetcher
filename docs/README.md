@@ -33,5 +33,8 @@ tweepy - v3.10.0
 
 ## Run using Docker
 If you finding trouble with seting up a dev environment , we have made a dockerfile to make the setup process easier
+
+Note:make sure you have store the .env file and key.json file inside the thread_fetcher folder before building the docker image
 1. RUN ```docker build -t thread_fetcher .```
 2. RUN ```docker run thread_fetcher ```
+
