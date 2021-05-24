@@ -21,7 +21,7 @@ tweepy - v3.10.0
 2. Twitter developer account
 3. A google-cloud/firebase account
 ## How to configure
-1. Clone the repository ```git clone git@github.com:abhinav-TB/thread_fetcher.git```
+1. Clone the repository ```git clone https://github.com/abhinav-TB/thread_fetcher.git```
 2. Change directory to thread_fetcher
 3. RUN ```pip install -r requirements.txt```
 4. Create a file called `.env` then copy all contents of `.env_sample` to env file, fill the values of env variables from the ones you recieved after registering the app using the twitter dev account 
