@@ -29,7 +29,7 @@ def is_thread (obj):
 api , _ = create_api()
 def handle_is_thread(tweet_id):
     
-    api.update_status('🛑This tweet does not have any threads!!',in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True)
+    api.update_status('🛑 This tweet does not have any threads or is older than one week!',in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True)
 
 def handle_follow(tweet):
     # inputs 
