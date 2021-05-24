@@ -9,7 +9,7 @@ Thread_fetcher is an amazing twitter-bot which when tagged on a useful thread wi
  BFH/recr4RwI8ceNDt7j5/2021
 ## Link to product walkthrough
  [link to video]
-## How it Works ?
+## How it Works?
 1. Follow the bot @threadfetcher in twitter (The bot will not have the permission to send you a dm if this step is not done)
 2. Find a thread you need to save and tag the bot in reply to any of the tweet in the thread (The bot will give you an error message as reply if the tweet does not have any thread)
 3. Wait for a couple of seconds for the bot to process the tweet and voilà! your thread formated and hosted as a web page and the link for the same is sent to you as a direct message
@@ -32,9 +32,9 @@ tweepy - v3.10.0
 2. RUN ```python main.py```
 
 ## Run using Docker
-If you finding trouble with seting up a dev environment , we have made a dockerfile to make the setup process easier
+If you finding trouble with setting up a dev environment, we have made a dockerfile to make the setup process easier.
 
-Note:make sure you have store the .env file and key.json file inside the thread_fetcher folder before building the docker image
+Note: make sure the .env file and key.json file are in the right location before building the docker image
 1. RUN ```docker build -t thread_fetcher .```
 2. RUN ```docker run thread_fetcher ```
 
