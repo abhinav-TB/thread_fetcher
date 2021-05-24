@@ -19,6 +19,7 @@ tweepy - v3.10.0
 ## Prerequisites
 1. python 3.6+ (tested on python3.7)
 2. Twitter developer account
+3. A google-cloud/firebase account
 ## How to configure
 1. Clone the repository ```git clone git@github.com:abhinav-TB/thread_fetcher.git```
 2. Change directory to thread_fetcher
@@ -29,3 +30,11 @@ tweepy - v3.10.0
 ## How to Run
 1. change directory to thread_fetcher folder inside the root folder
 2. RUN ```python main.py```
+
+## Run using Docker
+If you finding trouble with seting up a dev environment , we have made a dockerfile to make the setup process easier
+
+Note:make sure you have store the .env file and key.json file inside the thread_fetcher folder before building the docker image
+1. RUN ```docker build -t thread_fetcher .```
+2. RUN ```docker run thread_fetcher ```
+
