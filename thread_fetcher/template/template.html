@@ -53,8 +53,15 @@
                 margin: 1.6cm;
             }
 
-            button, video {
+            button,
+            video {
                 display: none !important;
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            .print_button {
+                display: none;
             }
         }
     </style>
@@ -62,7 +69,7 @@
 
 <body>
     <h1 class="title">{{ title }}</h1>
-    <button onclick="print_pdf()">Save As PDF</button>
+    <button onclick="print_pdf()" class="print_button">Save As PDF</button>
     {{ body }}
 </body>
 

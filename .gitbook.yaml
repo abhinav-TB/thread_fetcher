@@ -1,0 +1,6 @@
+root: ./docs
+
+​structure:  
+    readme: How to save thread.md  
+    summary: Error Messages.md
+    
