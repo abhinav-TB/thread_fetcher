@@ -1,7 +1,6 @@
-FROM python:3.7
+FROM python:3.7.3
 COPY requirements.txt /tmp
-COPY /thread_fetcher /app
 RUN pip install -r /tmp/requirements.txt
-
+COPY /thread_fetcher /app
 WORKDIR app
 CMD ["python3", "./main.py"]
