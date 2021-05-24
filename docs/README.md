@@ -38,3 +38,4 @@ Note: make sure the .env file and key.json file are in the right location before
 1. RUN ```docker build -t thread_fetcher .```
 2. RUN ```docker run thread_fetcher ```
 
+Eager to try it out? reply to a tweet in [this thread](https://twitter.com/lil_fazil/status/1396701571442896896) and tag @threadfetcher  
