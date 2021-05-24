@@ -19,6 +19,7 @@ tweepy - v3.10.0
 ## Prerequisites
 1. python 3.6+ (tested on python3.7)
 2. Twitter developer account
+3. A google cloud / firebase account
 ## How to configure
 1. Clone the repository ```git clone git@github.com:abhinav-TB/thread_fetcher.git```
 2. Change directory to thread_fetcher
