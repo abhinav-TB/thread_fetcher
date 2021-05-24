@@ -30,3 +30,8 @@ tweepy - v3.10.0
 ## How to Run
 1. change directory to thread_fetcher folder inside the root folder
 2. RUN ```python main.py```
+
+## Run using Docker
+If you finding trouble with seting up a dev environment , we have made a dockerfile to make the setup process easier
+1. RUN ```docker build -t thread_fetcher .```
+2. RUN ```docker run thread_fetcher ```
