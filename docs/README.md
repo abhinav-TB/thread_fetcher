@@ -1,12 +1,5 @@
-![BFH Banner](https://trello-attachments.s3.amazonaws.com/542e9c6316504d5797afbfb9/542e9c6316504d5797afbfc1/39dee8d993841943b5723510ce663233/Frame_19.png)
 # Thread_fetcher
 [Thread_fetcher](https://twitter.com/threadfetcher) is an amazing twitter-bot which when tagged on a useful thread will send back the thread as a hosted website which can be shared and downloaded in various formats.
-## Team members
-1. Abhinav TB https://github.com/abhinav-TB
-2. Fazil Babu https://github.com/fazil47
-3. Akhil BR https://github.com/Akhil-BR
-## Team Id
- BFH/recr4RwI8ceNDt7j5/2021
 ## Link to product walkthrough
  [Link to the demo video](https://www.loom.com/share/ce0bff00a4714b6790b61be7ccf3b855)
 ## How it Works?
@@ -37,5 +30,3 @@ If you finding trouble with setting up a dev environment, we have made a dockerf
 Note: make sure the .env file and key.json file are in the right location before building the docker image
 1. RUN ```docker build -t thread_fetcher .```
 2. RUN ```docker run thread_fetcher ```
-
-Eager to try it out? reply to a tweet in [this thread](https://twitter.com/lil_fazil/status/1396701571442896896) and tag @threadfetcher  
